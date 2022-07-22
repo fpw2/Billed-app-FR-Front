@@ -19,6 +19,7 @@ export default class NewBill {
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const picture = file.name // nom de mon image
+    console.log(file)
     
     if(picture.includes("jpg") || picture.includes("jpeg") || picture.includes("png")){
       const filePath = e.target.value.split(/\\/g) // je supprime les \
@@ -27,6 +28,7 @@ export default class NewBill {
       const email = JSON.parse(localStorage.getItem("user")).email
       formData.append('file', file)
       formData.append('email', email)
+      this.document.querySelector(`input[data-testid="file"]`).setCustomValidity("")
 
       this.store
         .bills()
@@ -43,12 +45,12 @@ export default class NewBill {
           this.fileName = fileName
         }).catch(error => console.error(error))
     } else {
-      alert("mauvais format")
+      this.document.querySelector(`input[data-testid="file"]`).setCustomValidity("Format autorisé (jpg, jpeg, png)")
     }
   }
   handleSubmit = e => {
     e.preventDefault()
-    console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
+    console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value :', e.target.querySelector(`input[data-testid="datepicker"]`).value)
     const email = JSON.parse(localStorage.getItem("user")).email
     const bill = {
       email,
